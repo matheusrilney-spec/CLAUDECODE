@@ -1,0 +1,42 @@
+{
+  "name": "proposal-builder",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "import:pricing": "ts-node scripts/importPricing.ts",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:studio": "prisma studio"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "next": "^14.2.3",
+    "typescript": "^5.4.5",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@types/node": "^20.12.12",
+    "tailwindcss": "^3.4.3",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "react-hook-form": "^7.51.5",
+    "zod": "^3.23.8",
+    "@hookform/resolvers": "^3.3.4",
+    "xlsx": "^0.18.5",
+    "handlebars": "^4.7.8",
+    "prisma": "^5.13.0",
+    "@prisma/client": "^5.13.0",
+    "clsx": "^2.1.1",
+    "date-fns": "^3.6.0",
+    "lucide-react": "^0.408.0"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "@types/xlsx": "^0.0.36",
+    "@types/handlebars": "^4.1.0"
+  }
+}
