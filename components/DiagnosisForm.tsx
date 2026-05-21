@@ -2,19 +2,23 @@
 
 import { useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { diagnosisSchema } from '@/lib/proposalSchema';
+import { diagnosisSchema, Diagnosis } from '@/lib/proposalSchema';
 import { Plus, X } from 'lucide-react';
 
-export default function DiagnosisForm({ onSubmit, initialData }: any) {
-  const form = useForm({
+export default function DiagnosisForm({ onSubmit, initialData }: {
+  onSubmit: (data: Diagnosis) => void;
+  initialData?: Partial<Diagnosis>;
+}) {
+  const form = useForm<Diagnosis>({
     resolver: zodResolver(diagnosisSchema),
-    defaultValues: initialData || {
+    defaultValues: {
       objectives: '',
       problems: [{ title: '', description: '', severity: 'Crítico', commercialFlag: false }],
       impact: '',
       risks: '',
       priority: 'Alta',
       moment: '',
+      ...initialData,
     },
   });
 
@@ -22,6 +26,8 @@ export default function DiagnosisForm({ onSubmit, initialData }: any) {
     control: form.control,
     name: 'problems',
   });
+
+  const err = form.formState.errors;
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -33,21 +39,19 @@ export default function DiagnosisForm({ onSubmit, initialData }: any) {
           rows={3}
           placeholder="Qual é o principal objetivo do cliente com essa solução?"
         />
-        {form.formState.errors.objectives && (
-          <p className="text-red-500 text-sm mt-1">{form.formState.errors.objectives.message}</p>
-        )}
+        {err.objectives && <p className="text-red-500 text-sm mt-1">{String(err.objectives.message)}</p>}
       </div>
 
-      <div className="bg-gray-50 p-6 rounded-lg">
+      <div className="bg-gray-50 p-6 rounded-xl border border-gray-200">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-semibold text-gray-900">Problemas Identificados *</h3>
           <button
             type="button"
             onClick={() => append({ title: '', description: '', severity: 'Atenção', commercialFlag: false })}
-            className="btn-primary inline-flex items-center gap-2"
+            className="btn-primary inline-flex items-center gap-2 text-sm"
           >
             <Plus className="w-4 h-4" />
-            Adicionar Problema
+            Adicionar
           </button>
         </div>
 
@@ -55,13 +59,9 @@ export default function DiagnosisForm({ onSubmit, initialData }: any) {
           {fields.map((field, index) => (
             <div key={field.id} className="bg-white p-4 rounded-lg border border-gray-200">
               <div className="flex justify-between items-start mb-4">
-                <h4 className="font-medium text-gray-900">Problema {index + 1}</h4>
+                <h4 className="font-medium text-gray-800">Problema {index + 1}</h4>
                 {fields.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={() => remove(index)}
-                    className="text-red-500 hover:text-red-700"
-                  >
+                  <button type="button" onClick={() => remove(index)} className="text-red-500 hover:text-red-700">
                     <X className="w-5 h-5" />
                   </button>
                 )}
@@ -79,10 +79,7 @@ export default function DiagnosisForm({ onSubmit, initialData }: any) {
                   rows={2}
                   placeholder="Descrição detalhada"
                 />
-                <select
-                  {...form.register(`problems.${index}.severity`)}
-                  className="input-base"
-                >
+                <select {...form.register(`problems.${index}.severity`)} className="input-base">
                   <option>Crítico</option>
                   <option>Atenção</option>
                   <option>Oportunidade</option>
@@ -91,9 +88,7 @@ export default function DiagnosisForm({ onSubmit, initialData }: any) {
             </div>
           ))}
         </div>
-        {form.formState.errors.problems && (
-          <p className="text-red-500 text-sm mt-2">{form.formState.errors.problems.message}</p>
-        )}
+        {err.problems && <p className="text-red-500 text-sm mt-2">{String(err.problems.message)}</p>}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -105,6 +100,7 @@ export default function DiagnosisForm({ onSubmit, initialData }: any) {
             rows={3}
             placeholder="Como esses problemas impactam o negócio?"
           />
+          {err.impact && <p className="text-red-500 text-sm mt-1">{String(err.impact.message)}</p>}
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">Riscos de Não Agir *</label>
@@ -114,16 +110,14 @@ export default function DiagnosisForm({ onSubmit, initialData }: any) {
             rows={3}
             placeholder="Quais são os riscos se nada for feito?"
           />
+          {err.risks && <p className="text-red-500 text-sm mt-1">{String(err.risks.message)}</p>}
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">Prioridade *</label>
-          <select
-            {...form.register('priority')}
-            className="input-base"
-          >
+          <select {...form.register('priority')} className="input-base">
             <option>Baixa</option>
             <option>Média</option>
             <option>Alta</option>
@@ -138,13 +132,11 @@ export default function DiagnosisForm({ onSubmit, initialData }: any) {
             rows={2}
             placeholder="Contexto do momento atual"
           />
+          {err.moment && <p className="text-red-500 text-sm mt-1">{String(err.moment.message)}</p>}
         </div>
       </div>
 
-      <button
-        type="submit"
-        className="w-full btn-primary py-3 font-semibold"
-      >
+      <button type="submit" className="w-full btn-primary py-3 font-semibold">
         Continuar
       </button>
     </form>

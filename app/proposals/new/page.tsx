@@ -2,14 +2,18 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
 import ProposalForm from '@/components/ProposalForm';
 
 export default function NewProposal() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = async (data: any) => {
+  async function handleSubmit(data: Record<string, unknown>) {
     setIsSubmitting(true);
+    setError('');
     try {
       const response = await fetch('/api/proposals', {
         method: 'POST',
@@ -17,23 +21,35 @@ export default function NewProposal() {
         body: JSON.stringify(data),
       });
 
+      const result = await response.json();
+
       if (response.ok) {
-        const proposal = await response.json();
-        router.push(`/proposals/${proposal.id}`);
+        router.push(`/proposals/${result.id}`);
       } else {
-        alert('Erro ao criar proposta');
+        setError(result.error || 'Erro ao criar proposta');
       }
-    } catch (error) {
-      console.error('Erro:', error);
-      alert('Erro ao criar proposta');
+    } catch {
+      setError('Erro de conexão. Tente novamente.');
     } finally {
       setIsSubmitting(false);
     }
-  };
+  }
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold mb-8">Nova Proposta</h1>
+    <div className="space-y-6">
+      <div className="flex items-center gap-4">
+        <Link href="/proposals" className="text-gray-500 hover:text-primary">
+          <ArrowLeft className="w-5 h-5" />
+        </Link>
+        <h1 className="text-3xl font-bold text-gray-900">Nova Proposta</h1>
+      </div>
+
+      {error && (
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+          {error}
+        </div>
+      )}
+
       <ProposalForm onSubmit={handleSubmit} isSubmitting={isSubmitting} />
     </div>
   );
