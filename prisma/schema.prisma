@@ -1,0 +1,72 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Proposal {
+  id                String    @id @default(cuid())
+  companyName       String
+  contactName       String
+  segment           String?
+  website           String?
+  sellerName        String
+  sellerEmail       String
+  proposalDate      DateTime
+  validUntil        DateTime
+  proposalType      String    @default("Produto único")
+  status            String    @default("Rascunho")
+  
+  content           ProposalContent?
+  lineItems         ProposalLineItem[]
+  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+model ProposalContent {
+  id                String    @id @default(cuid())
+  proposalId        String    @unique
+  proposal          Proposal  @relation(fields: [proposalId], references: [id], onDelete: Cascade)
+  
+  objectives        String?
+  problems          String?   @db.Text
+  solution          String?   @db.Text
+  useCases          String?   @db.Text
+  roi               String?   @db.Text
+  roadmap           String?   @db.Text
+  nextSteps         String?   @db.Text
+  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+model ProposalLineItem {
+  id                        String    @id @default(cuid())
+  proposalId                String
+  proposal                  Proposal  @relation(fields: [proposalId], references: [id], onDelete: Cascade)
+  
+  productId                 String
+  productName               String
+  productFamily             String?
+  plan                      String
+  metric                    String
+  quantity                  Float
+  tablePrice                Float
+  discountPercent           Float     @default(0)
+  discountAmount            Float     @default(0)
+  promotionalPrice          Float?
+  promotionalMonths         Int       @default(0)
+  standardPriceAfterPromo   Float?
+  billingType               String    @default("monthly")
+  notes                     String?
+  
+  createdAt                 DateTime  @default(now())
+  updatedAt                 DateTime  @updatedAt
+}
