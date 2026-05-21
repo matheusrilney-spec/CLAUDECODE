@@ -1,0 +1,69 @@
+[
+  {
+    "id": "rdsm-entry-3000-brl-2026",
+    "productFamily": "RD Station Marketing",
+    "productCode": "RDSM",
+    "plan": "Entry",
+    "currency": "BRL",
+    "billingType": "monthly",
+    "metric": "leads",
+    "tier": 3000,
+    "price": 297,
+    "priceTable": "2026",
+    "sourceSheet": "BRL RDSM",
+    "sourceRef": "A2"
+  },
+  {
+    "id": "rdsm-pro-5000-brl-2026",
+    "productFamily": "RD Station Marketing",
+    "productCode": "RDSM",
+    "plan": "Pro",
+    "currency": "BRL",
+    "billingType": "monthly",
+    "metric": "leads",
+    "tier": 5000,
+    "price": 1121,
+    "priceTable": "2026",
+    "sourceSheet": "BRL RDSM Premium",
+    "sourceRef": "A3"
+  },
+  {
+    "id": "rdcrm-standard-brl-2026",
+    "productFamily": "RD Station CRM",
+    "productCode": "RDCRM",
+    "plan": "Standard",
+    "currency": "BRL",
+    "billingType": "monthly",
+    "metric": "usuarios",
+    "price": 890,
+    "priceTable": "2026",
+    "sourceSheet": "BRL RDCRM",
+    "sourceRef": "A4"
+  },
+  {
+    "id": "rdconv-starter-brl-2026",
+    "productFamily": "RD Conversas",
+    "productCode": "RDCONV",
+    "plan": "Starter",
+    "currency": "BRL",
+    "billingType": "monthly",
+    "metric": "atendimentos",
+    "price": 206,
+    "priceTable": "2026",
+    "sourceSheet": "BRL RD Conversas",
+    "sourceRef": "A5"
+  },
+  {
+    "id": "rdconv-pro-brl-2026",
+    "productFamily": "RD Conversas",
+    "productCode": "RDCONV",
+    "plan": "Pro",
+    "currency": "BRL",
+    "billingType": "monthly",
+    "metric": "atendimentos",
+    "price": 1030,
+    "priceTable": "2026",
+    "sourceSheet": "BRL RD Conversas",
+    "sourceRef": "A6"
+  }
+]

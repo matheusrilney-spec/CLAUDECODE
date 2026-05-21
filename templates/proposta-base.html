@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposta — {{companyName}}</title>
+    <style>
+        :root {
+            --sand: #F5F0E8;
+            --ocean: #0D3B4F;
+            --ocean-light: #2E7FA0;
+            --teal: #3AADA8;
+            --white: #FFFFFF;
+            --text-dark: #0D1F2A;
+            --text-mid: #3A5060;
+            --text-light: #7A9BAB;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--sand);
+            color: var(--text-dark);
+            font-size: 15px;
+            line-height: 1.65;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        section { padding: 80px 40px; }
+        .hero {
+            background: var(--ocean);
+            color: white;
+            padding: 100px 40px;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+        .hero .subtitle {
+            font-size: 18px;
+            opacity: 0.8;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+        .meta-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+            font-size: 14px;
+        }
+        .meta-item { text-align: left; }
+        .meta-label { opacity: 0.6; margin-bottom: 5px; }
+        h2 {
+            font-size: 32px;
+            color: var(--ocean);
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--teal);
+            padding-bottom: 15px;
+        }
+        .card {
+            background: white;
+            border-left: 4px solid var(--teal);
+            padding: 30px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        .card h3 {
+            color: var(--ocean);
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            background: white;
+        }
+        table th {
+            background: var(--ocean);
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        table td {
+            border-bottom: 1px solid #e0e0e0;
+            padding: 12px;
+        }
+        table tr:hover { background: #f9f9f9; }
+        .footer {
+            background: var(--ocean);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            margin-top: 80px;
+        }
+        .cta {
+            background: var(--teal);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <h1>Proposta Comercial</h1>
+            <p class="subtitle">{{proposalTitle}}</p>
+            <div class="meta-info">
+                <div class="meta-item">
+                    <div class="meta-label">Cliente</div>
+                    <strong>{{companyName}}</strong>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Contato</div>
+                    <strong>{{contactName}}</strong>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Vendedor</div>
+                    <strong>{{sellerName}}</strong>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Data da Proposta</div>
+                    <strong>{{proposalDate}}</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{#if diagnosis}}
+    <section>
+        <div class="container">
+            <h2>Diagnóstico</h2>
+            {{#if diagnosis.objectives}}
+            <div class="card">
+                <h3>Objetivo Principal</h3>
+                <p>{{diagnosis.objectives}}</p>
+            </div>
+            {{/if}}
+            {{#each diagnosis.problems}}
+            <div class="card">
+                <h3>{{this.title}}</h3>
+                <p>{{this.description}}</p>
+            </div>
+            {{/each}}
+        </div>
+    </section>
+    {{/if}}
+
+    {{#if solution}}
+    <section style="background: white;">
+        <div class="container">
+            <h2>Solução Proposta</h2>
+            <p style="font-size: 16px; line-height: 1.8; margin-bottom: 30px;">{{solution.summary}}</p>
+        </div>
+    </section>
+    {{/if}}
+
+    {{#if lineItems}}
+    <section style="background: white;">
+        <div class="container">
+            <h2>Proposta Comercial</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Plano</th>
+                        <th>Quantidade</th>
+                        <th>Valor Unit.</th>
+                        <th>Desconto</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each lineItems}}
+                    <tr>
+                        <td>{{this.productName}}</td>
+                        <td>{{this.plan}}</td>
+                        <td>{{this.quantity}}</td>
+                        <td>{{this.tablePrice}}</td>
+                        <td>{{this.discountPercent}}%</td>
+                        <td><strong>{{this.total}}</strong></td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </section>
+    {{/if}}
+
+    {{#if nextSteps}}
+    <section>
+        <div class="container">
+            <h2>Próximos Passos</h2>
+            <div class="card">
+                <p>{{nextSteps.immediateAction}}</p>
+            </div>
+        </div>
+    </section>
+    {{/if}}
+
+    <div class="footer">
+        <div class="container">
+            <p>Proposta gerada automaticamente pelo Montador de Propostas RD Station</p>
+            <p>&copy; 2025. Todos os direitos reservados.</p>
+        </div>
+    </div>
+</body>
+</html>
